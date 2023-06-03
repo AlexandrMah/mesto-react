@@ -1,0 +1,10 @@
+.element__like {
+  width: 22px;
+  height: 19px;
+  background-color: transparent;
+  background-size: contain;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  border: none;
+  transition: background-image 1.5s;
+}

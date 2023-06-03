@@ -1,0 +1,9 @@
+.element__button-img{
+  width: 282px;
+  height: 282px;
+  background-color: #000;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+}
