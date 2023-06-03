@@ -62,7 +62,7 @@ function App() {
         <label className="popup__field">
           <input 
             type="text" 
-            value=" " 
+            value="" 
             placeholder="Имя" 
             name="name" 
             id="profileName-input" 
@@ -76,8 +76,8 @@ function App() {
         <label className="popup__field">
           <input
             type="text" 
-            value=" " 
-            placeholder="О себе" 
+            value="" 
+            placeholder="Занятие" 
             name="specialization" 
             id="specialization-input" 
             className="popup__element popup__element_key_specialization" 
