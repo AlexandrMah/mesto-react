@@ -1,8 +1,6 @@
 import React from "react";
 
-function Card(props){
-  const ulStyle = {listStyleType:'none'}
-  
+function Card(props){  
   function handleClick() {
     props.onCardClick({
       open: true,
@@ -12,7 +10,7 @@ function Card(props){
   }  
 
   return (
-    <li style={ulStyle} key={props.id} id="card">
+    <>
       <article className="element">
         <button onClick = {handleClick} type='button' className="element__button-img"><img src={props.url} alt={props.name} className="element__image"/></button>                
         <div className="element__info">
@@ -23,10 +21,9 @@ function Card(props){
               {props.lilesLength}</p>
           </div>
         </div>
-
         <button type="button" className="element__trash"></button>
       </article>
-    </li>
+    </>
   )
 }
 

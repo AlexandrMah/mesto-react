@@ -37,11 +37,15 @@ function App() {
     setIsEditProfilePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
     setIsAddPlacePopupOpen(false);
-    setSelectedCard(false);
+    setSelectedCard({
+        open: false,
+        url: '',
+        nameImg: ''
+      });
   }
 
   return (
-    <body className="root">
+    <div className="root">
       <div className="page">
         <Header />
         <Main
@@ -58,6 +62,7 @@ function App() {
           title = "Редактировать профиль"
           isOpen = {isEditProfilePopupOpen}
           onClose = {closeAllPopups}
+          buttonText = "Сохранить"
         >
         <label className="popup__field">
           <input 
@@ -70,6 +75,7 @@ function App() {
             required 
             minLength="2" 
             maxLength="40"
+            onChange = {evt => console.log(evt.target.value)}
           />
           <span className="profileName-input-error popup__input-error"></span>
         </label>
@@ -84,6 +90,7 @@ function App() {
             required 
             minLength="2" 
             maxLength="200"
+            onChange = {evt => console.log(evt.target.value)}
           />
           <span className="specialization-input-error popup__input-error"></span>
         </label>
@@ -94,8 +101,9 @@ function App() {
           title = "Обновить аватар"
           isOpen = {isEditAvatarPopupOpen}
           onClose = {closeAllPopups}
+          buttonText = "Сохранить"
         >
-        <label class="popup__field">
+        <label className="popup__field">
           <input 
             type="url" 
             value=" " 
@@ -104,6 +112,7 @@ function App() {
             id="profileAvatar-input" 
             className="popup__element popup__element_key_img" 
             required
+            onChange = {evt => console.log(evt.target.value)}
           />
           <span className="profileAvatar-input-error popup__input-error"></span>
         </label>
@@ -114,6 +123,7 @@ function App() {
           title = "Новое место"
           isOpen = {isAddPlacePopupOpen}
           onClose = {closeAllPopups}
+          buttonText = "Сохранить"
         >
         <label className="popup__field">
           <input 
@@ -124,8 +134,9 @@ function App() {
            id="name-input" 
            className="popup__element popup__element_key_name" 
            required 
-           minlength="2" 
-           maxlength="30"
+           minLength="2" 
+           maxLength="30"
+           onChange = {evt => console.log(evt.target.value)}
           />
           <span className="name-input-error popup__input-error"></span>
         </label>
@@ -138,6 +149,7 @@ function App() {
             id="url-input" 
             className="popup__element popup__element_key_img" 
             required
+            onChange = {evt => console.log(evt.target.value)}
           />
           <span className="url-input-error popup__input-error"></span>
         </label>
@@ -149,7 +161,7 @@ function App() {
         onClose = {closeAllPopups}        
       />
 
-    </body>   
+    </div>   
   );
 }
 
