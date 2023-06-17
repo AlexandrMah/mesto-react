@@ -2,21 +2,18 @@ import React from "react";
 import cross from './../images/cross.svg';
 import api from "../utils/api";
 import Card from "./Card";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function Main({onEditProfile, onEditAvatar, onAddPlace, onCardClick}) {
 
-  const [userName, setUserName] = React.useState("Жак-Ив Кусто");
-  const [userDescription, setUserDescription] = React.useState("Исследователь океанов");
-  const [userAvatar, setUserAvatar] = React.useState("https://taxpert.ru/neuroavatar/max/f221e4b61503a25f.jpg");
+  const currentUser = React.useContext(CurrentUserContext);
+  const userName = currentUser.name;
+  const userDescription = currentUser.about;
+  const userAvatar = currentUser.avatar;
+
   const [cards, setCards] = React.useState([]);
 
-  React.useEffect(() =>{  
-    api.getInfoUser().then(response => {
-      setUserName(response.name)
-      setUserDescription(response.about)
-      setUserAvatar(response.avatar)
-    }).catch(err => console.log(err))
-  
+  React.useEffect(() =>{
     api.getInitialCards().then(infoCards => {
       setCards(
         infoCards.map((info) => ({
@@ -24,6 +21,7 @@ function Main({onEditProfile, onEditAvatar, onAddPlace, onCardClick}) {
           cardId: info._id,
           name: info.name,
           url: info.link,
+          owner: info.owner
         }))
       )
     }).catch(err => console.log(err))
@@ -50,11 +48,13 @@ function Main({onEditProfile, onEditAvatar, onAddPlace, onCardClick}) {
           cards.map(({cardId, ...props}) => (
             <Card
               key = {cardId}
+              _id = {cardId}
               name = {props.name}
               url = {props.url}
               likes = {props.likes}
               lilesLength = {props.likes.length}
               onCardClick = {onCardClick}
+              owner = {props.owner}
             />
           ))
         }

@@ -1,13 +1,25 @@
 import React from "react";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function Card(props){  
   function handleClick() {
     props.onCardClick({
       open: true,
       url: props.url,
-      nameImg: props.name
+      nameImg: props.name,
     })
-  }  
+  }
+
+  const currentUser = React.useContext(CurrentUserContext);
+  // Определяем, являемся ли мы владельцем текущей карточки
+  const isOwn = props.owner._id === currentUser.userId;
+  // Определяем, есть ли у карточки лайк, поставленный текущим пользователем
+  const isLiked = props.likes.some(element => element._id === currentUser.userId);
+  // Создаём переменную, которую после зададим в `className` для кнопки лайка
+  const cardLikeButtonClassName = ( 
+    `card__like-button ${isLiked && 'card__like-button_active'}` 
+  );; 
+  console.log(isLiked, props.likes, currentUser.userId)
 
   return (
     <>
@@ -21,7 +33,7 @@ function Card(props){
               {props.lilesLength}</p>
           </div>
         </div>
-        <button type="button" className="element__trash"></button>
+        {isOwn &&<button type="button" className="element__trash" /*onClick={handleDeleteClick}*//>}
       </article>
     </>
   )
