@@ -67,6 +67,7 @@ class Api{
     return this._checkResponse(infoNewCard);
   }  
 
+  //удаление новой карточки с сервера
   async deleteCard(id) {
     const delCard = await fetch(`${this._options.baseUrl}/cards/${id}`, {
       method: 'DELETE',
@@ -77,6 +78,7 @@ class Api{
     return this._checkResponse(delCard);
   }
 
+  // поставить лайк
   async putLike(id) {
     const putLikeCard = await fetch(`${this._options.baseUrl}/cards/${id}/likes`, {
       method: 'PUT',
@@ -96,6 +98,10 @@ class Api{
       },
     })
     return this._checkResponse(deleteLikeCard);
+  }
+
+  changeLikeCardStatus(id, isLiked){
+    return isLiked ? this.putLike(id) : this.deleteLike(id)
   }
 
   /*----Проверка ответа----*/

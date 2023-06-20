@@ -4,28 +4,12 @@ import api from "../utils/api";
 import Card from "./Card";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
-function Main({onEditProfile, onEditAvatar, onAddPlace, onCardClick}) {
+function Main({onEditProfile, onEditAvatar, onAddPlace, onCardClick, onCardLike, onCardDelete, cards}) {
 
   const currentUser = React.useContext(CurrentUserContext);
   const userName = currentUser.name;
   const userDescription = currentUser.about;
   const userAvatar = currentUser.avatar;
-
-  const [cards, setCards] = React.useState([]);
-
-  React.useEffect(() =>{
-    api.getInitialCards().then(infoCards => {
-      setCards(
-        infoCards.map((info) => ({
-          likes: info.likes,
-          cardId: info._id,
-          name: info.name,
-          url: info.link,
-          owner: info.owner
-        }))
-      )
-    }).catch(err => console.log(err))
-  }, [])
 
   return (
     <main className="content">
@@ -54,6 +38,8 @@ function Main({onEditProfile, onEditAvatar, onAddPlace, onCardClick}) {
               likes = {props.likes}
               lilesLength = {props.likes.length}
               onCardClick = {onCardClick}
+              onCardLike = {onCardLike}
+              onCardDelete = {onCardDelete}
               owner = {props.owner}
             />
           ))

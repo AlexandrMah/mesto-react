@@ -56,6 +56,46 @@ function App() {
       });
   }
 
+  /*---------cards-------------*/
+
+  const [cards, setCards] = React.useState([]);
+
+  React.useEffect(() =>{
+    api.getInitialCards().then(infoCards => {
+      setCards(
+        infoCards.map((info) => ({
+          likes: info.likes,
+          cardId: info._id,
+          name: info.name,
+          url: info.link,
+          owner: info.owner
+        }))
+      )
+    }).catch(err => console.log(err))
+  }, [])
+
+  /*------------ лайки ----------*/
+  function handleCardLike(card) {
+    // Снова проверяем, есть ли уже лайк на этой карточке
+    const isLiked = card.likes.some(i => i._id === currentUser.userId);
+
+    // Отправляем запрос в API и получаем обновлённые данные карточки
+    api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
+      setCards((state) => state.map((c) => c.cardId === card._id ? {
+        likes: newCard.likes,
+        cardId: newCard._id,
+        name: newCard.name,
+        url: newCard.link,
+        owner: newCard.owner
+      } : c));
+    }).catch(err => console.log(err)); 
+  }
+  /*---------- удаление карточки ------------*/
+  function handleCardDelete(card) {
+    api.deleteCard(card._id);
+  }
+
+  /*----------------------*/
   return (
     <CurrentUserContext.Provider value={currentUser}>  
       <div className="root">
@@ -66,6 +106,9 @@ function App() {
             onEditAvatar = {handleClickEditAvatar}
             onAddPlace = {handleClickAddPlace}
             onCardClick = {setSelectedCard}
+            onCardLike = {handleCardLike}
+            onCardDelete = {handleCardDelete}
+            cards = {cards}
           />
           <Footer />
         </div>
