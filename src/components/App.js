@@ -92,7 +92,9 @@ function App() {
   }
   /*---------- удаление карточки ------------*/
   function handleCardDelete(card) {
-    api.deleteCard(card._id);
+    api.deleteCard(card._id).then((newCard) => {
+      setCards((state) => state.filter((c) => c.cardId !== card._id ));
+    }).catch(err => console.log(err));
   }
 
   /*----------------------*/
