@@ -7,6 +7,7 @@ import ImagePopup from './ImagePopup';
 import Card from "./Card";
 import api from "../utils/api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import EditProfilePopup from "./EditProfilePopup";
 
 function App() {
   const [currentUser,  setCurrentUser] = React.useState([]);
@@ -57,7 +58,6 @@ function App() {
   }
 
   /*---------cards-------------*/
-
   const [cards, setCards] = React.useState([]);
 
   React.useEffect(() =>{
@@ -96,7 +96,13 @@ function App() {
       setCards((state) => state.filter((c) => c.cardId !== card._id ));
     }).catch(err => console.log(err));
   }
-
+  /*-----------Редактирование профиля-----------*/
+  function handleUpdateUser({ name, specialization }){
+    api.editInfoUser({ name, specialization })
+      .then((info) => setCurrentUser(info))
+      .catch(err => console.log(err));
+    closeAllPopups()
+  }
   /*----------------------*/
   return (
     <CurrentUserContext.Provider value={currentUser}>  
@@ -115,45 +121,13 @@ function App() {
           <Footer />
         </div>
 
-        <PopupWithForm
-            name = "edit-profile"
-            title = "Редактировать профиль"
-            isOpen = {isEditProfilePopupOpen}
-            onClose = {closeAllPopups}
-            buttonText = "Сохранить"
-          >
-          <label className="popup__field">
-            <input 
-              type="text" 
-              value="" 
-              placeholder="Имя" 
-              name="name" 
-              id="profileName-input" 
-              className="popup__element popup__element_key_name" 
-              required 
-              minLength="2" 
-              maxLength="40"
-              onChange = {evt => console.log(evt.target.value)}
-            />
-            <span className="profileName-input-error popup__input-error"></span>
-          </label>
-          <label className="popup__field">
-            <input
-              type="text" 
-              value="" 
-              placeholder="Занятие" 
-              name="specialization" 
-              id="specialization-input" 
-              className="popup__element popup__element_key_specialization" 
-              required 
-              minLength="2" 
-              maxLength="200"
-              onChange = {evt => console.log(evt.target.value)}
-            />
-            <span className="specialization-input-error popup__input-error"></span>
-          </label>
-        </PopupWithForm>
-
+        /*---Редактирование профиля---*/
+        <EditProfilePopup 
+          isOpen={isEditProfilePopupOpen} 
+          onClose={closeAllPopups}
+          onUpdateUser={handleUpdateUser}
+        />
+        /*----------------------------*/
         <PopupWithForm
             name = "edit-avatar"
             title = "Обновить аватар"

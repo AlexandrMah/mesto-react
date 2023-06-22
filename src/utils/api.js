@@ -20,7 +20,11 @@ class Api{
   async editInfoUser({ name, specialization }){
       const infoUser = await fetch(`${this._options.baseUrl}/users/me`, {
         method: 'PATCH',
-        headers: this._headers,
+        //headers: this._headers,
+        headers: {
+          authorization: '964fdb52-1202-4ec7-a0d2-a00430190f53',
+          'Content-Type': 'application/json'
+        },
         body: JSON.stringify({
           name: name,
           about: specialization,
