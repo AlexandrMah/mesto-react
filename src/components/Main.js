@@ -29,12 +29,12 @@ function Main({onEditProfile, onEditAvatar, onAddPlace, onCardClick, onCardLike,
 
       <section className="elements">
         {
-          cards.map(({cardId, ...props}) => (
+          cards.map(({_id, ...props}) => (
             <Card
-              key = {cardId}
-              _id = {cardId}
+              key = {_id}
+              _id = {_id}
               name = {props.name}
-              url = {props.url}
+              link = {props.link}
               likes = {props.likes}
               lilesLength = {props.likes.length}
               onCardClick = {onCardClick}

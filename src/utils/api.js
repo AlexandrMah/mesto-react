@@ -57,15 +57,14 @@ class Api{
     
   }
 
-
   //добавление новой карточки на сервер
-  async getAddNewCard(name, url) {
+  async getAddNewCard(name, link) {
     const infoNewCard = await fetch(`${this._options.baseUrl}/cards`, {
       method: 'POST',
       headers: this._headers,
       body: JSON.stringify({
         name: name,
-        link: url
+        link: link
       })
     })
     return this._checkResponse(infoNewCard);
