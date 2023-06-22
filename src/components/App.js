@@ -21,7 +21,7 @@ function App() {
           name: infoUser.name,
           about: infoUser.about,
           avatar: infoUser.avatar,
-          userId: infoUser._id,
+          _id: infoUser._id,
         })
       )
     }).catch(err => console.log(err))
@@ -67,7 +67,7 @@ function App() {
       setCards(
         infoCards.map((info) => ({
           likes: info.likes,
-          /*cardId*/_id: info._id,
+          _id: info._id,
           name: info.name,
           link: info.link,
           owner: info.owner
@@ -79,14 +79,13 @@ function App() {
   /*------------ лайки ----------*/
   function handleCardLike(card) {
     // Снова проверяем, есть ли уже лайк на этой карточке
-    const isLiked = card.likes.some(i => i._id === currentUser.userId);
-    console.log(card._id)
+    const isLiked = card.likes.some(i => i._id === currentUser._id);
 
     // Отправляем запрос в API и получаем обновлённые данные карточки
     api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
-      setCards((state) => state.map((c) => c./*cardId*/_id === card._id ? {
+      setCards((state) => state.map((c) => c._id === card._id ? {
         likes: newCard.likes,
-        /*cardId*/_id: newCard._id,
+        _id: newCard._id,
         name: newCard.name,
         link: newCard.link,
         owner: newCard.owner
@@ -165,7 +164,7 @@ function App() {
           onClose={closeAllPopups}
           onUpdateAvatar={handleUpdateAvatar}
         />
-        {/*---Окно редактирования аватара---*/}
+        {/*---Окно добавления новой карточки---*/}
         <AddPlacePopup 
           isOpen={isAddPlacePopupOpen} 
           onClose={closeAllPopups}

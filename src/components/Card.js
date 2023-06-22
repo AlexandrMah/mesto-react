@@ -20,10 +20,10 @@ function Card(props){
 
   const currentUser = React.useContext(CurrentUserContext);
   // Определяем, являемся ли мы владельцем текущей карточки
-  const isOwn = props.owner._id === currentUser.userId;
+  const isOwn = props.owner._id === currentUser._id;
 
   // Определяем, есть ли у карточки лайк, поставленный текущим пользователем
-  const isLiked = props.likes.some(element => element._id === currentUser.userId);
+  const isLiked = props.likes.some(element => element._id === currentUser._id);
 
   // Создаём переменную, которую после зададим в `className` для кнопки лайка
   const cardLikeButtonClassName = ( 

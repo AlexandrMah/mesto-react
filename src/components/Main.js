@@ -1,12 +1,12 @@
 import React from "react";
 import cross from './../images/cross.svg';
-import api from "../utils/api";
 import Card from "./Card";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function Main({onEditProfile, onEditAvatar, onAddPlace, onCardClick, onCardLike, onCardDelete, cards}) {
 
   const currentUser = React.useContext(CurrentUserContext);
+
   const userName = currentUser.name;
   const userDescription = currentUser.about;
   const userAvatar = currentUser.avatar;

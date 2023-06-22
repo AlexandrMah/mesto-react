@@ -9,6 +9,8 @@ function AddPlacePopup({ isOpen, onClose, onAddPlaceSubmit }){
     e.preventDefault();
 
     onAddPlaceSubmit(name, url);
+    setName('');
+    setUrl('');
   }
   
   return (

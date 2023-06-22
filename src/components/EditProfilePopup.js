@@ -8,7 +8,7 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser}){
 
   // Подписка на контекст
   const currentUser = React.useContext(CurrentUserContext);
-
+  console.log(currentUser)
   // После загрузки текущего пользователя из API
   // его данные будут использованы в управляемых компонентах.
   React.useEffect(() => {
@@ -18,8 +18,7 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser}){
 
   function handleSubmit(e) {
     // Запрещаем браузеру переходить по адресу формы
-    e.preventDefault(); 
-  
+    e.preventDefault();  
     // Передаём значения управляемых компонентов во внешний обработчик
     onUpdateUser({
       name,
@@ -30,7 +29,7 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser}){
   return (
     <>
       <PopupWithForm
-            name = "edit-profile"
+            nameClass = "edit-profile"
             title = "Редактировать профиль"
             isOpen = {isOpen}
             onClose = {onClose}
