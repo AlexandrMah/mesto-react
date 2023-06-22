@@ -8,6 +8,7 @@ import Card from "./Card";
 import api from "../utils/api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import EditProfilePopup from "./EditProfilePopup";
+import EditAvatarPopup from "./EditAvatarPopup";
 
 function App() {
   const [currentUser,  setCurrentUser] = React.useState([]);
@@ -96,9 +97,16 @@ function App() {
       setCards((state) => state.filter((c) => c.cardId !== card._id ));
     }).catch(err => console.log(err));
   }
-  /*-----------Редактирование профиля-----------*/
+  /*---Редактирование профиля---*/
   function handleUpdateUser({ name, specialization }){
     api.editInfoUser({ name, specialization })
+      .then((info) => setCurrentUser(info))
+      .catch(err => console.log(err));
+    closeAllPopups()
+  }
+  /*---Редактирование аватара---*/
+  function handleUpdateAvatar(avatarLink){
+    api.editInfoAvatar(avatarLink)
       .then((info) => setCurrentUser(info))
       .catch(err => console.log(err));
     closeAllPopups()
@@ -121,35 +129,21 @@ function App() {
           <Footer />
         </div>
 
-        /*---Редактирование профиля---*/
+        /*---Окно редактирования профиля---*/
         <EditProfilePopup 
           isOpen={isEditProfilePopupOpen} 
           onClose={closeAllPopups}
           onUpdateUser={handleUpdateUser}
         />
-        /*----------------------------*/
-        <PopupWithForm
-            name = "edit-avatar"
-            title = "Обновить аватар"
-            isOpen = {isEditAvatarPopupOpen}
-            onClose = {closeAllPopups}
-            buttonText = "Сохранить"
-          >
-          <label className="popup__field">
-            <input 
-              type="url" 
-              value=" " 
-              placeholder="Ссылка на фото" 
-              name="avatar" 
-              id="profileAvatar-input" 
-              className="popup__element popup__element_key_img" 
-              required
-              onChange = {evt => console.log(evt.target.value)}
-            />
-            <span className="profileAvatar-input-error popup__input-error"></span>
-          </label>
-        </PopupWithForm>
 
+        /*---Окно редактирования аватара---*/
+        <EditAvatarPopup 
+          isOpen={isEditAvatarPopupOpen} 
+          onClose={closeAllPopups}
+          onUpdateAvatar={handleUpdateAvatar}
+        />
+        /*----------------------------*/
+        
         <PopupWithForm
             name = "create-card"
             title = "Новое место"
