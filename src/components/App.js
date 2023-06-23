@@ -12,7 +12,7 @@ import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 
 function App() {
-  const [currentUser,  setCurrentUser] = React.useState([]);
+  const [currentUser,  setCurrentUser] = React.useState({});
 
   React.useEffect(() =>{  
     api.getInfoUser().then(infoUser => {
@@ -35,6 +35,18 @@ function App() {
     link: '',
     nameImg: ''
   });
+
+  /*---сохранение - сохранить---*/
+  const [isLoading, setIsLoading] = React.useState(false);
+
+  function loading(){
+    setIsLoading(true);
+  }
+
+  function uploaded(){
+    setIsLoading(false);
+  }
+  /*---------------------------*/
 
   function handleClickEditProfile(){
     setIsEditProfilePopupOpen(true);
@@ -100,24 +112,29 @@ function App() {
   }
   /*---Редактирование профиля---*/
   function handleUpdateUser({ name, specialization }){
+    loading()
     api.editInfoUser({ name, specialization })
       .then((info) => {
         setCurrentUser(info)
         closeAllPopups()
+        uploaded()
       })
       .catch(err => console.log(err));
   }
   /*---Редактирование аватара---*/
   function handleUpdateAvatar(avatarLink){
+    loading()
     api.editInfoAvatar(avatarLink)
       .then((info) => {
         setCurrentUser(info)
         closeAllPopups()
+        uploaded()
       })
       .catch(err => console.log(err));    
   }
   /*---Создание новой карточки---*/
   function handleAddPlaceSubmit(name, link){
+    loading()
     api.getAddNewCard(name, link)
       .then((infoCard) => {
         setCards(
@@ -130,6 +147,7 @@ function App() {
             owner: info.owner
           })))     
         closeAllPopups()
+        uploaded()
       })
       .catch(err => console.log(err));    
   }
@@ -156,6 +174,7 @@ function App() {
           isOpen={isEditProfilePopupOpen} 
           onClose={closeAllPopups}
           onUpdateUser={handleUpdateUser}
+          isLoading = {isLoading}
         />
 
         {/*---Окно редактирования аватара---*/}
@@ -163,12 +182,14 @@ function App() {
           isOpen={isEditAvatarPopupOpen} 
           onClose={closeAllPopups}
           onUpdateAvatar={handleUpdateAvatar}
+          isLoading = {isLoading}
         />
         {/*---Окно добавления новой карточки---*/}
         <AddPlacePopup 
           isOpen={isAddPlacePopupOpen} 
           onClose={closeAllPopups}
           onAddPlaceSubmit={handleAddPlaceSubmit}
+          isLoading = {isLoading}
         />        
         {/*----------------------------*/}
 

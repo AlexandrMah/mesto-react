@@ -1,7 +1,7 @@
 import React from "react";
 import PopupWithForm from "./PopupWithForm";
 
-function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }){
+function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoading }){
   const [url, setUrl] = React.useState('');
   
   function handleSubmit(e) {
@@ -9,9 +9,14 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }){
   
     onUpdateAvatar({
       avatar: url,
-    });
-    setUrl('');
-  } 
+    }); 
+  }
+
+  React.useEffect(() => {
+    if (isOpen === false){
+      setUrl('');  
+    }
+  }, [isOpen]);
   
   return (
     <>
@@ -20,7 +25,7 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }){
             title = "Обновить аватар"
             isOpen = {isOpen}
             onClose = {onClose}
-            buttonText = "Сохранить"
+            buttonText = {isLoading ? 'Сохранение...' : 'Сохранить'}
             onSubmit={handleSubmit}
           >
           <label className="popup__field">

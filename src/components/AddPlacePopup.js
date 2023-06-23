@@ -1,18 +1,25 @@
 import React from "react";
 import PopupWithForm from "./PopupWithForm";
 
-function AddPlacePopup({ isOpen, onClose, onAddPlaceSubmit }){
+function AddPlacePopup({ isOpen, onClose, onAddPlaceSubmit, isLoading }){
   const [name, setName] = React.useState('');
   const [url, setUrl] = React.useState('');
 
   function handleSubmit(e) {
     e.preventDefault();
 
-    onAddPlaceSubmit(name, url);
-    setName('');
-    setUrl('');
+    onAddPlaceSubmit(name, url);  
   }
   
+  React.useEffect(() => {
+    if (isOpen === false){
+      setName('');
+      setUrl('');  
+    }
+  }, [isOpen]);
+
+  
+
   return (
     <>
       <PopupWithForm
@@ -20,7 +27,7 @@ function AddPlacePopup({ isOpen, onClose, onAddPlaceSubmit }){
           title = "Новое место"
           isOpen = {isOpen}
           onClose = {onClose}
-          buttonText = "Сохранить"
+          buttonText = {isLoading ? 'Сохранение...' : 'Сохранить'}
           onSubmit={handleSubmit}
         >
         <label className="popup__field">
